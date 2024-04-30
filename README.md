@@ -1,14 +1,12 @@
 
-RustCn社区 Zhihu Twitter 10000
-
 
 🔫 Here are some fun facts about me:
 
 A cool guy, loving and enjoying coding!
 
-I'm really talented in e-sports: Ranked No.1 of CS1.6 in East China, Ranked No.97 in Pubg Mobile
+I'm really talented in Writting and Reading.
 
-Lived in XinJiang Bole before I was 18，I like Tianshan Moutain and the grassland, lakes and sheeps around it.
+Lived in ShangDong LiaoCheng before I was 18，I like TaiShan Moutain and the grassland, lakes and sheeps around it.
 
 ❤️ Rust, AI, Writing and Sharing
 
