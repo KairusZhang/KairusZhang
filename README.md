@@ -2,7 +2,7 @@
 
 🔫 Here are some fun facts about me:
 
-A cool guy, loving and enjoying coding!
+A cool guy, loving and enjoying coding and robot making!
 
 I'm really talented in Writting and Reading.
 
