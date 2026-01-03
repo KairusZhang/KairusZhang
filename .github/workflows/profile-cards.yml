@@ -1,0 +1,43 @@
+name: Generate Profile Cards
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # 每天 UTC 午夜运行一次（可调整为更频繁，如每12小时 "0 */12 * * *"）
+  workflow_dispatch:  # 支持手动触发
+
+permissions:
+  contents: write  # 允许工作流写入仓库内容（生成并推送文件）
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: generate-github-profile-cards
+    steps:
+      - uses: actions/checkout@v4  # 检出仓库最新代码
+
+      # 第一步：运行 3D 贡献图 action（生成文件到 profile-3d-contrib/ 目录）
+      - uses: yoshi389111/github-profile-3d-contrib@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 默认 token 足够
+          USERNAME: ${{ github.repository_owner }}   # 自动使用仓库所有者用户名
+
+      # 第二步：运行总结卡片 action（生成文件到 profile-summary-card-output/ 目录，不自动 push）
+      - uses: vn7n24fzkq/github-profile-summary-cards@release
+        env:
+          GITHUB_TOKEN: ${{ secrets.SUMMARY_CARD_TOKEN }}  # 用你的自定义 PAT secret（替换 SUMMARY_CARD_TOKEN 为实际 secret 名）
+        with:
+          USERNAME: ${{ github.repository_owner }}
+          BRANCH_NAME: "main"  # 推送到的分支（默认 main，可改）
+          UTC_OFFSET: 8        # 可选：时区偏移（例如 +8 为中国标准时间）
+          EXCLUDE: ""          # 可选：排除语言列表（如 "css,html"）
+          AUTO_PUSH: false     # 关闭自动 push，我们在最后统一处理
+
+      # 第三步：统一 commit 和 push 所有生成的文件（只在有变化时执行）
+      - name: Commit & Push
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A .
+          if git commit -m "Generated profile cards (3D contrib and summary)"; then
+            git push
+          fi
